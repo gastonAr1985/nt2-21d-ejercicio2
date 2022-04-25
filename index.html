@@ -14,7 +14,9 @@
 
 
 <div class="container-fluid mt-3" id="app">
-    <input type="text" class="form-control" v-model="criterioDeBusqueda"
+    <input type="text" class="form-control" v-model="filtroPorNombre"
+        placeholder="Ingresar un criterio de busqueda...">
+    <input type="text" class="form-control" v-model="filtroPorDni"
         placeholder="Ingresar un criterio de busqueda...">
     <br>
     <div class="card-deck m-0">
@@ -39,8 +41,8 @@
     new Vue({
         el: '#app',
         data: {
-            criterioDeBusqueda: '',
-            //Aquí, en este array es donde tienen que agregar su información
+            filtroPorNombre: '',
+            filtroPorDni: '',
             personas: [
                 {
                     nombre: "Daniel",
@@ -49,22 +51,35 @@
                     dni: "20442873"
                 },
                 {
-                    nombre: "...",
-                    apellido: "...",
-                    correo: "...",
-                    dni: "..."
+                    nombre: "Gaston",
+                    apellido: "Arbert",
+                    correo: "gastonarbert@hotmail.com",
+                    dni: "31477580"
+                },
+                {
+                    nombre: "Daniel",
+                    apellido: "Sanchez",
+                    correo: "danielsanchez68@hotmail.com",
+                    dni: "2222222"
+                },
+                {
+                    nombre: "Gaston",
+                    apellido: "Arbert",
+                    correo: "gastonarbert@hotmail.com",
+                    dni: "2222222"
                 },
             ]
 
         },
         computed: {
             personasFiltradas() {
-                return this.personas.filter((persona) => {
-                    let registroCompleto = `${persona.nombre} ${persona.apellido} ${persona.dni} ${persona.correo}`
-                    return registroCompleto.toLowerCase().includes(this.criterioDeBusqueda.toLowerCase())
-                });
-            }
+                    return this.personas.filter(p =>
+                    (p.nombre.toLowerCase().includes(this.filtroPorNombre.toLowerCase())
+                    || p.apellido.toLowerCase().includes(this.filtroPorNombre.toLowerCase()))
+                    && p.dni.includes(this.filtroPorDni))
+            },
         },
+
         methods: {
             getNombreCompleto(persona) {
                 return `${persona.nombre} ${persona.apellido}`
